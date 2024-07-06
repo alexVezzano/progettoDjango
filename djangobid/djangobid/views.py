@@ -7,9 +7,9 @@ from collections import Counter
 
 def home(request):
     # Recupera tutte le aste disponibili
-    aste = Asta.objects.all()
+    #aste = Asta.objects.all()
     #recupera solo le aste ancora attive
-    #aste = Asta.objects.filter(is_active=True)
+    aste = Asta.objects.filter(is_active=True)
 
     # Filtra per categoria se specificato
     categoria_selezionata = request.GET.get('categoria')
