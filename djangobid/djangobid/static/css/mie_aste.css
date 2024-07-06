@@ -1,0 +1,60 @@
+.scroll-container {
+    position: relative;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.scroll-content {
+    display: flex;
+    transition: transform 0.3s ease;
+    gap:5px;
+}
+.scroll-content .col {
+    flex: 0 0 24.7%;
+    max-width: 24.7%;
+    display: inline-block;
+}
+.scroll-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 1;
+}
+.scroll-button.left {
+    left: 0;
+}
+.scroll-button.right {
+    right: 0;
+}
+.card {
+    width: 100%;
+    height: 100%;
+}
+.card-img-top {
+    width: 100%;
+    height: 400px; 
+    object-fit: cover; /* Mantiene il rapporto di aspetto e ritaglia l'immagine se necessario */
+}
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.card-title {
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card-text {
+    margin-bottom: 0.5rem;
+}
+.btn {
+    margin-top: auto; 
+}

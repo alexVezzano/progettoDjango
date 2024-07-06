@@ -1,0 +1,24 @@
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Asta Conclusa - Nessuna Offerta
+From: no-reply@asta.com
+To: aa@a.com
+Date: Wed, 03 Jul 2024 13:05:26 -0000
+Message-ID: <172001192680.255994.12041528719351320909@alex-HPLaptop>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asta Senza Offerte</title>
+</head>
+<body>
+    <h2>Caro alexbilla,</h2>
+    <p>L'asta per Pc portatile HP è conclusa, ma non ci sono state offerte.</p>
+    <p>Puoi visualizzare i dettagli dell'asta <a href="http://localhost:8000/asta/asta_conclusa/53/">qui</a>.</p>
+    <p>Grazie,<br>Il Team di Asta</p>
+</body>
+</html>
+-------------------------------------------------------------------------------

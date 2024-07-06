@@ -1,0 +1,24 @@
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Asta Conclusa - Hai Vinto!
+From: no-reply@asta.com
+To: aa@a.com
+Date: Wed, 03 Jul 2024 14:37:35 -0000
+Message-ID: <172001745564.255994.735171966503437623@alex-HPLaptop>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asta Vinta</title>
+</head>
+<body>
+    <h2>Congratulazioni alexbilla,</h2>
+    <p>Hai vinto l'asta per maglietta con un'offerta di €7.00.</p>
+    <p>Puoi visualizzare i dettagli dell'asta <a href="http://localhost:8000/asta/asta_conclusa/54/">qui</a>.</p>
+    <p>Grazie,<br>Il Team di DjangoBid</p>
+</body>
+</html>
+-------------------------------------------------------------------------------

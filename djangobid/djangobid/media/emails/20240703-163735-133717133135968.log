@@ -1,0 +1,48 @@
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Asta Conclusa - Hai Vinto!
+From: no-reply@asta.com
+To: b@b.com
+Date: Wed, 03 Jul 2024 14:37:35 -0000
+Message-ID: <172001745562.255994.15282762429153342270@alex-HPLaptop>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asta Vinta</title>
+</head>
+<body>
+    <h2>Congratulazioni luigibianchi,</h2>
+    <p>Hai vinto l'asta per Mouse con un'offerta di €20.00.</p>
+    <p>Puoi visualizzare i dettagli dell'asta <a href="http://localhost:8000/asta/asta_conclusa/50/">qui</a>.</p>
+    <p>Grazie,<br>Il Team di DjangoBid</p>
+</body>
+</html>
+-------------------------------------------------------------------------------
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Asta Conclusa - Nessuna Offerta
+From: no-reply@asta.com
+To: aa@a.com
+Date: Wed, 03 Jul 2024 14:37:35 -0000
+Message-ID: <172001745565.255994.14785684162718942976@alex-HPLaptop>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asta Senza Offerte</title>
+</head>
+<body>
+    <h2>Caro alexbilla,</h2>
+    <p>L'asta per Pc portatile HP è conclusa, ma non ci sono state offerte.</p>
+    <p>Puoi visualizzare i dettagli dell'asta <a href="http://localhost:8000/asta/asta_conclusa/55/">qui</a>.</p>
+    <p>Grazie,<br>Il Team di Asta</p>
+</body>
+</html>
+-------------------------------------------------------------------------------

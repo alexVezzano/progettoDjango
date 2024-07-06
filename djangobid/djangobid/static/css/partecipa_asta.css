@@ -1,0 +1,21 @@
+
+.card-img-top {
+    width: auto;
+    height: 200px; 
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centra verticalmente il contenuto */
+    height: 100%;
+}
+.row {
+    display: flex;
+    align-items: center; /* Allinea verticalmente il contenuto */
+}
+.card {
+    min-height: 200px; /* Altezza minima per la card */
+}
