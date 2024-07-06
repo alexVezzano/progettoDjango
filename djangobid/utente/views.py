@@ -41,7 +41,7 @@ def profilo(request):
     media_valutazioni = recensioni.aggregate(media=Avg('valutazione'))['media']
     return render(request, 'profilo.html', {
         'user': request.user,
-        'recensioni': list(recensioni),  # Convertiamo in lista per il template
+        'recensioni': list(recensioni),  
         'media_valutazioni': media_valutazioni,
     })
 

@@ -20,6 +20,7 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ asta.prodotto.nome }}</h5>
                         <p class="card-text">{{ asta.prodotto.descrizione }}</p>
+                        <p class="card-text">Venditore: <a href="{% url 'asta:visualizza_venditore' asta.venditore.id %}">{{ asta.venditore }}</a></p>
                         <p class="card-text">Prezzo finale: <b>€{{ highest_bid }}</b></p>
                         <p class="card-text text-danger">L'asta è scaduta.</p>
                     </div>

@@ -105,17 +105,23 @@ def mie_aste(request):
     aste_create_concluse = Asta.objects.filter(venditore=utente, is_active=False).distinct()
 
 
-    # Aste vinte dall'utente
-    subquery = Offerta.objects.filter(asta=OuterRef('pk')).order_by('-valore_offerta').values('valore_offerta')[:1]
-    
+    # Subquery per ottenere il profilo del massimo offerente per ogni asta
+    max_offerta_subquery = Offerta.objects.filter(
+        asta=OuterRef('pk')
+    ).order_by('-valore_offerta').values('profilo__id')[:1]
+
+    # Filtrare le aste dove il massimo offerente è l'utente specifico
     aste_vinte = Asta.objects.filter(
         is_active=False,
-        offerte__profilo=utente
+        id__in=Offerta.objects.filter(
+            profilo=utente,
+            asta__is_active=False
+        ).values('asta_id').distinct()
     ).annotate(
-        max_offerta=Subquery(subquery)
+        max_offerta_profilo=Subquery(max_offerta_subquery)
     ).filter(
-        offerte__valore_offerta=Subquery(subquery)
-    ).distinct()
+        max_offerta_profilo=utente.id
+    )
 
     # Aste in cui l'utente ha fatto un'offerta e sono ancora attive
     aste_offerte_attive = Asta.objects.filter(offerte__profilo=utente, is_active=True).distinct()

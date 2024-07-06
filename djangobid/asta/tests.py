@@ -1,7 +1,7 @@
 from django.test import TestCase, override_settings
 from django.urls import reverse
 from django.core.files.uploadedfile import SimpleUploadedFile
-from utente.models import Utente  # Importa il modello Utente
+from utente.models import Utente  
 from .models import Asta, Prodotto
 from django.utils import timezone
 import datetime
