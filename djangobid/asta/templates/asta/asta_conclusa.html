@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    {% load static %}
+{% endblock %}
+
+{%block title%}
+    Asta Conclusa
+{%endblock%}
+
+{%block content%}
+    <div class="container mt-4">
+        <h1>Asta Conclusa</h1>
+        <div class="card">
+            <div class="row">
+                <div class="col-md-4">
+                    <img src="{{ asta.prodotto.immagine.url }}" class="card-img-top" alt="Immagine Prodotto" style="max-width: 200px; max-height: 200px;">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ asta.prodotto.nome }}</h5>
+                        <p class="card-text">{{ asta.prodotto.descrizione }}</p>
+                        <p class="card-text">Prezzo finale: <b>€{{ highest_bid }}</b></p>
+                        <p class="card-text text-danger">L'asta è scaduta.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if highest_bidder %}
+            <h2 class="mt-4">Recensioni</h2>
+            {% for review in existing_reviews %}
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Valutazione: {{ review.valutazione }}/5</h5>
+                        <p class="card-text">{{ review.descrizione }}</p>
+                        <p class="card-text"><small class="text-muted">Recensione di {{ review.mittente.username }} per {{ review.destinatario.username }}</small></p>
+                    </div>
+                </div>
+            {% empty %}
+                <p>Nessuna recensione disponibile.</p>
+            {% endfor %}
+
+            {% if can_review and not existing_review %}
+                <h2 class="mt-4">Lascia una Recensione</h2>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary">Invia Recensione</button>
+                </form>
+            {% endif %}
+        {% else %}
+            {% if request.user == asta.venditore %}
+                <h3 class="mt-4">Non ci sono state offerte per il prodotto, rimettilo all'asta!</h2>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ new_asta_form.as_p }}
+                    <button type="submit" class="btn btn-primary">Rimetti all'Asta</button>
+                </form>
+            {% endif %}
+        {% endif %}
+    </div>
+{%endblock%}

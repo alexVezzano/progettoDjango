@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/mie_aste.css' %}">
+
+{% endblock %}
+
+{% block title %}
+    Le mie aste
+{% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h1>Le Mie Aste</h1>
+
+        <h2>Aste create da me</h2>
+        
+        <h4>Attive:</h4>
+        <div class="scroll-container">
+            {% if aste_create_attive|length > 4 %}
+                <button class="scroll-button left" onclick="scrollContentLeft('active-auctions')">&#10094;</button>
+            {% endif %}
+            <div id="active-auctions" class="scroll-content">
+                {% for asta in aste_create_attive %}
+                    <div class="col">
+                        <div class="card h-100">
+                            <img src="{{ asta.prodotto.immagine.url }}" class="card-img-top" alt="Immagine Prodotto">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ asta.prodotto.nome }}</h5>
+                                <a href="{% url 'asta:partecipa_asta' asta.id %}" class="btn btn-primary">Visualizza</a>
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p>Nessuna asta attiva o conclusa con offerte.</p>
+                {% endfor %}
+            </div>
+            {% if aste_create_attive|length > 4 %}
+                <button class="scroll-button right" onclick="scrollContentRight('active-auctions')">&#10095;</button>
+            {% endif %}
+        </div>
+
+        <h4>Concluse:</h4>
+        <div class="scroll-container">
+            {% if aste_create_concluse|length > 4 %}
+                <button class="scroll-button left" onclick="scrollContentLeft('concluded-auctions')">&#10094;</button>
+            {% endif %}
+            <div id="concluded-auctions" class="scroll-content">
+                {% for asta in aste_create_concluse %}
+                    <div class="col">
+                        <div class="card h-100">
+                            <img src="{{ asta.prodotto.immagine.url }}" class="card-img-top" alt="Immagine Prodotto">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ asta.prodotto.nome }}</h5>
+                                <a href="{% url 'asta:asta_conclusa' asta.id %}" class="btn btn-primary">Visualizza</a>
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p>Nessuna asta conclusa.</p>
+                {% endfor %}
+            </div>
+            {% if aste_create_concluse|length > 4 %}
+                <button class="scroll-button right" onclick="scrollContentRight('concluded-auctions')">&#10095;</button>
+            {% endif %}
+        </div>
+
+        <h2>Aste vinte da me</h2>
+        <div class="scroll-container">
+            {% if aste_vinte|length > 4 %}
+                <button class="scroll-button left" onclick="scrollContentLeft('won-auctions')">&#10094;</button>
+            {% endif %}
+            <div id="won-auctions" class="scroll-content">
+                {% for asta in aste_vinte %}
+                    <div class="col">
+                        <div class="card h-100">
+                            <img src="{{ asta.prodotto.immagine.url }}" class="card-img-top" alt="Immagine Prodotto">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ asta.prodotto.nome }}</h5>
+                                <a href="{% url 'asta:asta_conclusa' asta.id %}" class="btn btn-primary">Visualizza</a>
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p>Nessuna asta vinta.</p>
+                {% endfor %}
+            </div>
+            {% if aste_vinte|length > 4 %}
+                <button class="scroll-button right" onclick="scrollContentRight('won-auctions')">&#10095;</button>
+            {% endif %}
+        </div>
+
+        <h2>Aste a cui ho fatto un'offerta (attive)</h2>
+        <div class="scroll-container">
+            {% if aste_offerte_attive|length > 4 %}
+                <button class="scroll-button left" onclick="scrollContentLeft('bid-auctions')">&#10094;</button>
+            {% endif %}
+            <div id="bid-auctions" class="scroll-content">
+                {% for asta in aste_offerte_attive %}
+                    <div class="col">
+                        <div class="card h-100">
+                            <img src="{{ asta.prodotto.immagine.url }}" class="card-img-top" alt="Immagine Prodotto">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ asta.prodotto.nome }}</h5>
+                                <a href="{% url 'asta:partecipa_asta' asta.id %}" class="btn btn-primary">Visualizza</a>
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p>Nessuna asta a cui hai fatto un'offerta.</p>
+                {% endfor %}
+            </div>
+            {% if aste_offerte_attive|length > 4 %}
+                <button class="scroll-button right" onclick="scrollContentRight('bid-auctions')">&#10095;</button>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Script per lo scorrimento -->
+    <script src="{% static 'js/mie_aste.js' %}"></script>   
+
+{% endblock %}

@@ -1,0 +1,183 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/venditore.css' %}">
+{% endblock %}
+
+{%block title%}
+    Visualizza Venditore
+{%endblock%}
+
+{%block content%}
+    <div class="container mt-4">
+        <h1>Profilo Venditore</h1>
+
+        <div class="venditore-info mb-4">
+            <div>
+                {% if venditore.immagine_profilo %}
+                    <img src="{{ venditore.immagine_profilo.url }}" class="img-fluid" alt="Immagine del profilo di {{ venditore.username }}">
+                {% else %}
+                    <img src="{% static 'images/default.png' %}" class="img-fluid" alt="Immagine del profilo di {{ venditore.username }}">
+                {% endif %}
+            </div>
+            <div class="venditore-details">
+                <p><strong>Nome:</strong> {{ venditore.nome }}</p>
+                <p><strong>Cognome:</strong> {{ venditore.cognome }}</p>
+                <p><strong>Username:</strong> {{ venditore.username }}</p>
+                <p><strong>Email:</strong> {{ venditore.email }}</p>
+            </div>
+        </div>
+
+        <h2>Aste Attive</h2>
+        <div class="scroll-container">
+            {% if aste_attive_con_prezzo|length > 4 %}
+                <button class="scroll-button left" onclick="scrollContentLeft('active-auctions')">&#10094;</button>
+            {% endif %}
+            <div id="active-auctions" class="scroll-content">
+                {% for asta in aste_attive_con_prezzo %}
+                    <div class="col">
+                        <div class="card mb-4 h-100 card-aste">
+                            <img src="{{ asta.asta.prodotto.immagine.url }}" class="card-img-top" alt="Immagine Prodotto">
+                            <div class="card-body-aste">
+                                <h5 class="card-title card-title-aste">{{ asta.asta.prodotto.nome }}</h5>
+                                <p class="card-text card-text-aste">Prezzo Corrente: {{ asta.prezzo_corrente }}</p>
+                                <a href="{% url 'asta:partecipa_asta' asta.asta.id %}" class="btn btn-primary">Visualizza</a>
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p>Nessuna asta attiva.</p>
+                {% endfor %}
+            </div>
+            {% if aste_attive_con_prezzo|length > 4 %}
+                <button class="scroll-button right" onclick="scrollContentRight('active-auctions')">&#10095;</button>
+            {% endif %}
+        </div>
+
+        <h2>Aste Concluse</h2>
+        <div class="scroll-container">
+            {% if aste_concluse_con_prezzo|length > 4 %}
+                <button class="scroll-button left" onclick="scrollContentLeft('concluded-auctions')">&#10094;</button>
+            {% endif %}
+            <div id="concluded-auctions" class="scroll-content">
+                {% for asta in aste_concluse_con_prezzo %}
+                    <div class="col">
+                        <div class="card mb-4 h-100 card-aste">
+                            <img src="{{ asta.asta.prodotto.immagine.url }}" class="card-img-top" alt="Immagine Prodotto">
+                            <div class="card-body-aste">
+                                <h5 class="card-title-aste">{{ asta.asta.prodotto.nome }}</h5>
+                                <p class="card-text-aste">
+                                    {% if asta.asta.offerte.exists %}
+                                        Venduta per: {{ asta.prezzo_corrente }}
+                                    {% else %}
+                                        Non venduta
+                                    {% endif %}
+                                </p>
+                                <a href="{% url 'asta:partecipa_asta' asta.asta.id %}" class="btn btn-primary">Visualizza</a>
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p>Nessuna asta conclusa.</p>
+                {% endfor %}
+            </div>
+            {% if aste_concluse_con_prezzo|length > 4 %}
+                <button class="scroll-button right" onclick="scrollContentRight('concluded-auctions')">&#10095;</button>
+            {% endif %}
+        </div>
+
+        <h2 class="mt-5">Recensioni Ricevute {% if media_valutazioni %} ({{ media_valutazioni|floatformat:2 }}/5) {% endif %}</h2>
+        <div class="recensione mb-4">
+            {% if recensioni %}
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Recensione per l'asta: <a href="#" id="asta-link"></a></h5>
+                        <p class="card-text">Mittente: <b><span id="mittente"></span></b></p>
+                        <p class="card-text">Valutazione: <b><span id="valutazione"></span></b></p>
+                        <p class="card-text" id="descrizione"></p>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <button class="btn btn-secondary" id="prev-review">Precedente</button>
+                    <span id="review-counter" class="align-self-center"></span>
+                    <button class="btn btn-secondary" id="next-review">Successivo</button>
+                </div>
+            {% else %}
+                <p>Nessuna recensione disponibile.</p>
+            {% endif %}
+        </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+            let currentReviewIndex = 0;
+            const reviews = {{ recensioni|safe }};
+            const mittenteElem = document.getElementById('mittente');
+            const valutazioneElem = document.getElementById('valutazione');
+            const descrizioneElem = document.getElementById('descrizione');
+            const astaLinkElem = document.getElementById('asta-link');
+            const reviewCounterElem = document.getElementById('review-counter');
+
+            function updateReview() {
+                const review = reviews[currentReviewIndex];
+                mittenteElem.innerText = review.mittente__username;
+                valutazioneElem.innerText = review.valutazione;
+                descrizioneElem.innerText = review.descrizione;
+                astaLinkElem.innerText = review.asta__prodotto__nome;
+                console.log(review.asta__id);
+                astaLinkElem.href = `/asta/${review.asta__id}/`; 
+
+                reviewCounterElem.innerText = `${currentReviewIndex + 1}/${reviews.length}`;
+            }
+
+            document.getElementById('prev-review').addEventListener('click', function() {
+                if (currentReviewIndex > 0) {
+                    currentReviewIndex--;
+                    updateReview();
+                }
+            });
+
+            document.getElementById('next-review').addEventListener('click', function() {
+                if (currentReviewIndex < reviews.length - 1) {
+                    currentReviewIndex++;
+                    updateReview();
+                }
+            });
+
+            if (reviews.length > 0) {
+                updateReview();
+            }
+            });
+            var scrollPositions = {};
+
+            function scrollContentLeft(id) {
+                var container = document.getElementById(id);
+                if (container) {
+                    if (!scrollPositions[id]) {
+                        scrollPositions[id] = 0;
+                    }
+                    scrollPositions[id] -= container.clientWidth;
+                    if (scrollPositions[id] < 0) {
+                        scrollPositions[id] = 0;
+                    }
+                    container.style.transform = 'translateX(-' + scrollPositions[id] + 'px)';
+                }
+            }
+
+            function scrollContentRight(id) {
+                var container = document.getElementById(id);
+                if (container) {
+                    if (!scrollPositions[id]) {
+                        scrollPositions[id] = 0;
+                    }
+                    var maxScroll = container.scrollWidth - container.clientWidth;
+                    scrollPositions[id] += container.clientWidth;
+                    if (scrollPositions[id] > maxScroll) {
+                        scrollPositions[id] = maxScroll;
+                    }
+                    container.style.transform = 'translateX(-' + scrollPositions[id] + 'px)';
+                }
+            }
+        </script>
+    </div>
+{% endblock %}

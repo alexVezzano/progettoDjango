@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asta Vinta</title>
+</head>
+<body>
+    <h2>Congratulazioni {{ highest_bidder.username }},</h2>
+    <p>Hai vinto l'asta per {{ asta.prodotto.nome }} con un'offerta di €{{ highest_bid.valore_offerta }}.</p>
+    <p>Puoi visualizzare i dettagli dell'asta <a href="{{ asta_url }}">qui</a>.</p>
+    <p>Grazie,<br>Il Team di DjangoBid</p>
+</body>
+</html>

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asta Conclusa per il Venditore</title>
+</head>
+<body>
+    <h2>Caro {{ venditore.username }},</h2>
+    <p>L'asta per {{ asta.prodotto.nome }} è conclusa con un'offerta di €{{ highest_bid.valore_offerta }}.</p>
+    <p>L'offerente vincente è {{ highest_bidder.username }}.</p>
+    <p>Puoi visualizzare i dettagli dell'asta <a href="{{ asta_url }}">qui</a>.</p>
+    <p>Grazie,<br>Il Team di Asta</p>
+</body>
+</html>

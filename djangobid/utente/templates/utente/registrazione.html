@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    {% load static %}
+    {% load crispy_forms_tags %}
+{% endblock %}
+
+{% block title %}
+    Registrazione
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Registrazione</h2>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+
+                        <button type="submit" class="btn btn-primary mt-3">Registrati</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

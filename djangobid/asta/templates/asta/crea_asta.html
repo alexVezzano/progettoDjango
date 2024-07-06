@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block head %}
+{% endblock %}
+
+{% block title %}
+    Crea Asta
+{% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h1>Crea una nuova Asta</h1>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mb-3">
+                {{ prodotto_form|crispy }}
+            </div>
+            <div class="mb-3">
+                {{ asta_form|crispy }}
+            </div>
+            <button type="submit" class="btn btn-primary">Aggiungi Asta</button>
+        </form>
+    </div>
+{% endblock %}

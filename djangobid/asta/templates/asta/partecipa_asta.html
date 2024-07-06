@@ -1,0 +1,100 @@
+
+{% extends 'base.html' %}
+
+{% block head %}
+    {% load static %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/partecipa_asta.css' %}">
+{% endblock %}
+
+{% block title %}
+    Partecipa asta
+{% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h1>Dettagli Asta</h1>
+        <div class="card">
+            <div class="row">
+                <div class="col-md-4">
+                    <img src="{{ asta.prodotto.immagine.url }}" class="card-img-top" alt="Immagine Prodotto" style="max-width: 200px; max-height: 200px;">
+                </div>
+                <div class="col-md-8">
+                    <!-- Dettagli dell'asta -->
+                    <div class="card-body">
+                        <h5 class="card-title">{{ asta.prodotto.nome }}</h5>
+                        <p class="card-text">{{ asta.prodotto.descrizione }}</p>
+                        <p class="card-text">Venditore: <a href="{% url 'asta:visualizza_venditore' asta.venditore.id %}">{{ asta.venditore }}</a></p>
+                        <p class="card-text">Offerta più alta: <b>€{{ highest_bid }}</b> 
+                            {% if highest_bidder %}
+                                di <b>{{ highest_bidder.username }}</b>
+                            {% endif %}
+                        </p>
+                        {% if is_time_remaining and not is_asta_scaduta %}
+                            <!-- Mostra tempo rimanente se l'asta è attiva -->
+                            <p class="card-text">Tempo rimanente: <b><span id="countdown">{{ formatted_end_time }}</span></b></p>
+                        {% elif not is_time_remaining and not is_asta_scaduta %}
+                            <!-- Mostra termine asta se l'asta termina in un altro giorno-->
+                            <p class="card-text">Termine asta: <b>{{ formatted_end_time }}</b></p>
+                        {% endif %}
+                        {% if request.user == asta.venditore %}
+                            <!-- Messaggio per il venditore -->
+                            <p class="alert alert-info" role="alert">
+                                Sei il venditore di questa asta. Non puoi fare un'offerta.
+                            </p>
+                        {% else %}
+                            {% if is_asta_scaduta %}
+                                <!-- Messaggio se l'asta è scaduta -->
+                                <p class="text-danger">L'asta è scaduta.</p>
+                            {% else %}
+                                {% if user.is_authenticated %}
+                                    {% if is_highest_bidder %}
+                                        <!-- Messaggio se l'utente è il miglior offerente -->
+                                        <p class="text-success">Sei l'offerente più alto per questa asta!</p>
+                                    {% else %}
+                                        {% if messages %}
+                                            <!-- Mostra messaggi -->
+                                            <ul class="messages">
+                                                {% for message in messages %}
+                                                    <li>{{ message }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        {% endif %}
+                                        <!-- Form per fare un'offerta -->
+                                        <form id="offerta-form" method="post" action="{% url 'asta:partecipa_asta' asta.id %}">
+                                            {% csrf_token %}
+                                            {{ form.as_p }}
+                                            <button type="submit" class="btn btn-primary">Fai un'offerta</button>
+                                        </form>
+                                    {% endif %}
+                                {% else %}
+                                    <!-- Messaggio se l'utente non è autenticato -->
+                                    <p>Per fare un'offerta <a href="{% url 'utente:login' %}?next={{ request.path }}">effettua il login</a>.</p>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Funzione per aggiornare dinamicamente il countdown
+        function updateCountdown() {
+            $.ajax({
+                url: "{% url 'asta:countdown' asta.id %}",
+                dataType: 'json',
+                success: function(data) {
+                    $('#countdown').text(data.formatted_end_time);
+                    if (data.is_asta_scaduta) {
+                        clearInterval(timer); // Ferma l'aggiornamento se l'asta è scaduta
+                    }
+                }
+            });
+        }
+
+        // Aggiorna il countdown ogni secondo
+        var timer = setInterval(updateCountdown, 1000);
+    </script>
+{% endblock %}
